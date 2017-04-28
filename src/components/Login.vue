@@ -46,7 +46,7 @@ export default {
   },
   computed: {
     errors () {
-      return this.$store.state.errors
+      return this.$store.getters.getAuthErrors
     }
   },
   methods: {

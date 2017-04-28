@@ -4,11 +4,8 @@ import Vue from 'vue'
 import App from './App'
 import { store } from './store'
 import router from './router'
-import Materials from 'vue-materials'
 
 Vue.config.productionTip = false
-
-Vue.use(Materials)
 
 /* Authenticate user */
 store.commit('checkAuth')

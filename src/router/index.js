@@ -19,7 +19,7 @@ export default new Router({
       path: '/login',
       component: Login,
       beforeEnter: (to, from, next) => {
-        store.state.authenticated ? next('/dashboard') : next()
+        store.getters.isAuthenticated ? next('/dashboard') : next()
       }
     },
     {
@@ -33,7 +33,7 @@ export default new Router({
       path: '/dashboard',
       component: Dashboard,
       beforeEnter: (to, from, next) => {
-        !store.state.authenticated ? next('/') : next()
+        !store.getters.isAuthenticated ? next('/') : next()
       }
     }
   ]

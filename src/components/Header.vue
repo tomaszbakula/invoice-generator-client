@@ -23,7 +23,7 @@
   export default {
     computed: {
       authenticated () {
-        return this.$store.state.authenticated
+        return this.$store.getters.isAuthenticated
       }
     },
     methods: {
