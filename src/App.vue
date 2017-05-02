@@ -3,7 +3,7 @@
 
     <app-header></app-header>
 
-    <div class="row container">
+    <div class="row container section">
       <router-view></router-view>
     </div>
 

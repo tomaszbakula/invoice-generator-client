@@ -5,6 +5,7 @@ import { store } from '@/store'
 import Home from '@/components/Home'
 import Login from '@/components/Login'
 import Dashboard from '@/components/Dashboard'
+import Profile from '@/components/Profile'
 
 Vue.use(Router)
 
@@ -32,9 +33,16 @@ export default new Router({
     {
       path: '/dashboard',
       component: Dashboard,
-      beforeEnter: (to, from, next) => {
-        !store.getters.isAuthenticated ? next('/') : next()
-      }
+      beforeEnter: auth
+    },
+    {
+      path: '/profile',
+      component: Profile,
+      beforeEnter: auth
     }
   ]
 })
+
+function auth (to, from, next) {
+  store.getters.isAuthenticated ? next() : next('/login')
+}
