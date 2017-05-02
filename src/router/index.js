@@ -6,6 +6,7 @@ import Home from '@/components/Home'
 import Login from '@/components/Login'
 import Dashboard from '@/components/Dashboard'
 import Profile from '@/components/Profile'
+import Invoices from '@/components/Invoices'
 
 Vue.use(Router)
 
@@ -38,6 +39,11 @@ export default new Router({
     {
       path: '/profile',
       component: Profile,
+      beforeEnter: auth
+    },
+    {
+      path: '/invoices',
+      component: Invoices,
       beforeEnter: auth
     }
   ]

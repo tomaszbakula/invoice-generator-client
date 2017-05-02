@@ -6,10 +6,15 @@
 
       <ul id="nav-mobile" class="right hide-on-med-and-down">
 
-        <router-link v-if="authenticated" to="/dashboard" activeClass="active" tag="li"><a>Dashboard</a></router-link>
-        <router-link v-if="authenticated" to="/profile" activeClass="active" tag="li"><a>Profile</a></router-link>
-        <router-link v-if="!authenticated" to="/login" activeClass="active" tag="li"><a>Login</a></router-link>
-        <li v-if="authenticated"><a @click="logout">Logout</a></li>
+        <template v-if="authenticated">
+          <router-link to="/dashboard" activeClass="active" tag="li"><a>Dashboard</a></router-link>
+          <router-link to="/invoices" activeClass="active" tag="li"><a>Invoices</a></router-link>
+          <router-link to="/profile" activeClass="active" tag="li"><a>Profile</a></router-link>
+          <li><a @click="logout">Logout</a></li>
+        </template>
+        <template v-else>
+          <router-link to="/login" activeClass="active" tag="li"><a>Login</a></router-link>
+        </template>
 
       </ul>
 
