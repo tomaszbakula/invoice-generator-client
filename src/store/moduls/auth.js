@@ -2,14 +2,14 @@ import router from '@/router'
 import axios from 'axios'
 
 const API_URL = 'http://localhost:3000/'
-const LOGIN_URL = API_URL + 'authenticate/'
-const SIGNUP_URL = API_URL + 'users/'
+const LOGIN_URL = API_URL + 'auth'
+const SIGNUP_URL = API_URL + 'users'
 
 const state = {
   user: {
     profile: {},
     authenticated: false,
-    authErrors: {}
+    authErrors: ''
   }
 }
 
@@ -43,6 +43,12 @@ const mutations = {
     state.user.authenticated = false
     axios.defaults.headers.common['Authorization'] = ''
     router.push('/')
+  },
+  setAuthErrors (state, errors) {
+    state.user.authErrors = errors
+  },
+  setAuth (state, status) {
+    state.user.authenticated = status
   }
 }
 
@@ -51,30 +57,28 @@ const actions = {
     axios.post(LOGIN_URL, credentials)
     .then(function (response) {
       localStorage.setItem('token', response.data.token)
+
+      // TODO: Check if it works.
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.token
 
-      // NOTE #1: I'm not sure about this solution.
-      // Maybe I should use mutations to update the state.
-      state.user.authenticated = true
-
+      commit('setAuth', true)
       router.push('dashboard')
     })
     .catch(function (err) {
       if (err.response) {
-        state.errors = err.response.data
+        commit('setAuthErrors', err.response.data)
       }
     })
   },
   signup ({ commit, state }, credentials) {
     axios.post(SIGNUP_URL, credentials, (response) => {
       localStorage.setItem('token', response.data.token)
-
-      // NOTE: Look note #1.
-      state.user.authenticated = true
-
+      commit('setAuth', true)
       router.push('dashboard')
     }).error((err) => {
-      state.errors = err.response.data
+      if (err.response) {
+        commit('setAuthErrors', err.response.data)
+      }
     })
   }
 }

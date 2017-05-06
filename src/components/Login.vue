@@ -4,11 +4,9 @@
 
       <h1 class="title">Login</h1>
 
-      <!-- <div v-if="errors" class="card red">
-        <div v-for="error in errors" class="card-action">
-          <span class="white-text">{{ error }}</span>
-        </div>
-      </div> -->
+      <div v-if="getAuthErrors" class="notification is-danger">
+        <p v-for="error in getAuthErrors">{{ error }}</p>
+      </div>
 
       <!--| EMAIL |-->
       <div class="field">
@@ -35,7 +33,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 
 export default {
   data () {
@@ -47,9 +45,7 @@ export default {
     }
   },
   computed: {
-    errors () {
-      return this.$store.getters.getAuthErrors
-    }
+    ...mapGetters([ 'getAuthErrors' ])
   },
   methods: {
     ...mapActions([ 'login' ])
@@ -79,5 +75,10 @@ export default {
   form {
     padding: 30px 24px;
     text-align: center;
+  }
+
+  .notification {
+    padding: 4px;
+    margin-bottom: 0.75rem;
   }
 </style>
