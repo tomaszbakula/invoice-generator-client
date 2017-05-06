@@ -3,9 +3,7 @@
 
     <app-header></app-header>
 
-    <div class="row container section">
-      <router-view></router-view>
-    </div>
+    <router-view></router-view>
 
   </div>
 </template>
@@ -20,3 +18,8 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+  @import '~bulma/bulma';
+  @import 'assets/scss/style';
+</style>
