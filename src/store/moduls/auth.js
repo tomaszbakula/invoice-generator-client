@@ -1,6 +1,5 @@
 import router from '@/router'
 import axios from 'axios'
-import jwtDecode from 'jwt-decode'
 
 const API_URL = 'http://localhost:3000/'
 const LOGIN_URL = API_URL + 'authenticate/'
@@ -34,7 +33,6 @@ const mutations = {
     var token = localStorage.getItem('token')
     if (token) {
       state.user.authenticated = true
-      state.user.profile = jwtDecode(token)
     } else {
       state.user.authenticated = false
       state.user.profile = {}

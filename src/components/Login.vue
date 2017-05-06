@@ -1,35 +1,37 @@
 <template>
-  <form class="col s4 offset-s4" @submit.prevent>
+  <main class="section">
+    <form class="container box column is-4" @submit.prevent>
 
-    <br><h4 class="center-align">Login</h4><br>
+      <h1 class="title">Login</h1>
 
-    <div v-if="errors" class="card red">
-      <div v-for="error in errors" class="card-action">
-        <span class="white-text">{{ error }}</span>
+      <!-- <div v-if="errors" class="card red">
+        <div v-for="error in errors" class="card-action">
+          <span class="white-text">{{ error }}</span>
+        </div>
+      </div> -->
+
+      <!--| EMAIL |-->
+      <div class="field">
+        <p class="control has-icons-left">
+          <span class="icon is-small is-left"><i class="fa fa-envelope"></i></span>
+          <input class="input" type="email" placeholder="Email" v-model="credentials.email">
+        </p>
       </div>
-    </div>
 
+      <!--| PASSWORD |-->
+      <div class="field">
+        <p class="control has-icons-left">
+          <span class="icon is-small is-left"><i class="fa fa-lock"></i></span>
+          <input class="input" type="password" placeholder="Password" v-model="credentials.password">
+        </p>
+      </div>
 
-    <!--| USERNAME |-->
-    <div class="input-field">
-      <label for="username">Username</label>
-      <input id="username" type="text" class="validate" v-model="credentials.username">
-    </div>
+      <button class="button is-outlined is-primary" type="submit" @click="login(credentials)">Login</button>
 
-    <!--| PASSWORD |-->
-    <div class="input-field">
-      <label for="password">Password</label>
-      <input id="password" type="password" class="validate" v-model="credentials.password">
-    </div>
+      <a href="#" class="new-account">Create account</a></p>
 
-    <br>
-
-    <div class="center-align">
-      <button class="btn btn-large waves-effect waves-light red" type="submit" @click="login(credentials)">Login</button>
-      <p class="center-align"><strong><a href="#" class="blue-grey-text text-darken-3">Create account.</a></strong></p>
-    </div>
-
-  </form>
+    </form>
+  </main>
 </template>
 
 <script>
@@ -39,7 +41,7 @@ export default {
   data () {
     return {
       credentials: {
-        username: '',
+        email: '',
         password: ''
       }
     }
@@ -54,3 +56,28 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+  @import "~bulma/sass/utilities/variables";
+
+  .button { margin-bottom: 8px; }
+
+  .new-account {
+    display: block;
+    color: $text;
+    text-align: center;
+    font-size: $size-6;
+
+    &:hover { color: $black-bis; }
+  }
+
+  .section {
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+  }
+
+  form {
+    padding: 30px 24px;
+    text-align: center;
+  }
+</style>
