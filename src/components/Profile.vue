@@ -233,6 +233,7 @@ export default {
     right: 0;
     bottom: 0;
     left: 0;
+    cursor: default;
 
     &__img {
       position: absolute;
@@ -251,6 +252,7 @@ export default {
       width: 30px;
       display: block;
       font-size: 24px;
+      cursor: pointer;
 
       &:hover { color: #f44336; }
     }
