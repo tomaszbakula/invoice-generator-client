@@ -1,9 +1,6 @@
 import router from '@/router'
 import axios from 'axios'
-
-const API_URL = 'http://localhost:3000/'
-const LOGIN_URL = API_URL + 'auth'
-const SIGNUP_URL = API_URL + 'users'
+import { LOGIN_URL, SIGNUP_URL } from '@/config'
 
 const state = {
   user: {
@@ -31,6 +28,7 @@ const getters = {
 const mutations = {
   checkAuth (state) {
     var token = localStorage.getItem('token')
+    axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
     if (token) {
       state.user.authenticated = true
     } else {
@@ -58,8 +56,7 @@ const actions = {
     .then(function (response) {
       localStorage.setItem('token', response.data.token)
 
-      // TODO: Check if it works.
-      axios.defaults.headers.common['Authorization'] = 'Bearer ' + response.data.token
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token')
 
       commit('setAuth', true)
       router.push('dashboard')
