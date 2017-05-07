@@ -1,112 +1,181 @@
 <template>
-  <div class="col m10 offset-m1 xl8 offset-xl2">
+  <main class="section">
+    <div class="container">
 
-    <h4>Profile</h4>
+      <h1 class="title">Profile</h1>
 
-    <form id="form" @submit.prevent="save($event)">
-
-      <div class="row">
+      <form class="columns is-multiline" @submit.prevent="save($event)">
 
         <!--| FIRST NAME |-->
-        <div class="input-field col s6">
-          <i class="material-icons prefix">account_circle</i>
-          <label for="first-name" class="active">First Name</label>
-          <input id="first-name" type="text" class="validate" name="first-name" v-model="profile.firstName">
+        <div class="column is-6">
+          <label class="label">First Name</label>
+          <p class="control has-icons-left">
+            <input class="input" type="text" name="firstName" v-model="profile.firstName">
+            <span class="icon is-small is-left"><i class="fa fa-user"></i></span>
+          </p>
         </div>
 
         <!--| LAST NAME |-->
-        <div class="input-field col s6">
-          <label for="last-name" class="active">Last Name</label>
-          <input id="last-name" type="text" class="validate" name="last-name" v-model="profile.lastName">
+        <div class="column is-6">
+          <label class="label">Last Name</label>
+          <p class="control has-icons-left">
+            <input class="input" type="text" name="lastName" v-model="profile.lastName">
+            <span class="icon is-small is-left"><i class="fa fa-user"></i></span>
+          </p>
         </div>
 
-        <div class="col s6">
+        <!--| EMAIL |-->
+        <div class="column is-6">
+          <label class="label">Email</label>
+          <p class="control has-icons-left">
+            <input class="input" type="text" name="email" v-model="profile.email">
+            <span class="icon is-small is-left"><i class="fa fa-envelope"></i></span>
+          </p>
+        </div>
 
-          <!--| EMAIL |-->
-          <div class="input-field">
-            <i class="material-icons prefix">email</i>
-            <label for="email" class="active">Email Address</label>
-            <input id="email" type="email" class="validate" name="email" required v-model="profile.email">
+        <!--| PHONE |-->
+        <div class="column is-6">
+          <label class="label">Phone</label>
+          <p class="control has-icons-left">
+            <input class="input" type="text" name="phone" v-model="profile.phone">
+            <span class="icon is-small is-left"><i class="fa fa-phone"></i></span>
+          </p>
+        </div>
+
+        <!--| STREET |-->
+        <div class="column is-5">
+          <label class="label">Street</label>
+          <p class="control has-icons-left">
+            <input class="input" type="text" name="street" v-model="profile.street">
+            <span class="icon is-small is-left"><i class="fa fa-map-marker"></i></span>
+          </p>
+        </div>
+
+        <!--| CITY |-->
+        <div class="column is-4">
+          <label class="label">City</label>
+          <p class="control has-icons-left">
+            <input class="input" type="text" name="city" v-model="profile.city">
+            <span class="icon is-small is-left"><i class="fa fa-map-marker"></i></span>
+          </p>
+        </div>
+
+        <!--| POSTCODE |-->
+        <div class="column is-3">
+          <label class="label">Post code</label>
+          <p class="control has-icons-left">
+            <input class="input" type="text" name="postcode" v-model="profile.postcode">
+            <span class="icon is-small is-left"><i class="fa fa-map-marker"></i></span>
+          </p>
+        </div>
+
+        <div class="column is-6">
+
+          <!--| STATE |-->
+          <div class="field">
+            <label class="label">State</label>
+            <p class="control has-icons-left">
+              <input class="input" type="text" name="state" v-model="profile.state">
+              <span class="icon is-small is-left"><i class="fa fa-globe"></i></span>
+            </p>
           </div>
 
-          <!--| PHONE |-->
-          <div class="input-field">
-            <i class="material-icons prefix">phone</i>
-            <label for="phone" class="active">Telephone Number</label>
-            <input id="phone" type="text" class="validate" name="phone" v-model="profile.phone">
+          <!--| COMPANY NAME |-->
+          <div class="field">
+            <label class="label">Company Name</label>
+            <p class="control has-icons-left">
+              <input class="input" type="text" name="companyName" v-model="profile.companyName">
+              <span class="icon is-small is-left"><i class="fa fa-building"></i></span>
+            </p>
           </div>
 
         </div>
 
-        <div class="col s6">
+        <!--| LOGO UPLOAD |-->
+        <div class="column is-6">
 
-          <!--| LOGO UPLOAD |-->
+          <!--| Cuntry |-->
+          <div class="field">
+            <label class="label">Country</label>
+            <p class="control has-icons-left">
+              <input class="input" type="text" name="country" v-model="profile.country">
+              <span class="icon is-small is-left"><i class="fa fa-globe"></i></span>
+            </p>
+          </div>
+
           <div class="dropbox">
-            <i class="large material-icons">perm_media</i>
+            <i class="fa fa-download"></i>
             <input class="input-file" type="file" name="logo" accept="image/*" @change="fileChange($event.target)">
 
-            <template v-if="profile.logo">
-              <div class="preview" :style="{ backgroundImage: previewUrl }"></div>
-              <i class="material-icons preview__remove" @click="removePreview">delete</i>
-            </template>
-
+            <div v-if="preview" class="preview">
+              <img :src="preview" alt="Logo" class="preview__img">
+              <i class="fa fa-trash preview__remove" @click="removeFile"></i>
+            </div>
           </div>
-
-          <br>
-
-          <!--| SUBMIT BTN |-->
-          <button class="btn waves-effect waves-light right red">Save
-            <i class="material-icons right">send</i>
-          </button>
-
-          <input type="hidden" name="_id" v-model="profile._id">
 
         </div>
 
-      </div>
+        <div class="column has-text-centered">
+          <button type="submit" class="button is-primary">Save</button>
+        </div>
 
-    </form>
+      </form>
 
-  </div>
+    </div>
+  </main>
 </template>
 
 <script>
 import axios from 'axios'
+import { API_URL } from '@/config'
 
 export default {
-  computed: {
-    profile () {
-      return this.$store.getters.userProfile
-    },
-    previewUrl () {
-      console.log('log')
-      return 'url(' + this.profile.logo + ')'
+  data () {
+    return {
+      profile: {},
+      preview: ''
     }
   },
+  created () {
+    this.fetchProfile()
+  },
   methods: {
-    fileChange (input) {
-      if (input.files && input.files[0]) {
-        var reader = new FileReader()
-
-        reader.onload = event => {
-          this.profile.logo = event.target.result
+    fetchProfile () {
+      axios.get('http://localhost:3000/api/users/profile').then(res => {
+        // Set logo preview.
+        if (res.data.logo) {
+          this.preview = API_URL + res.data.logo
         }
 
+        this.profile = res.data
+      })
+    },
+    fileChange (input) {
+      if (input.files) {
+        this.profile.logo = input.files[0]
+
+        var reader = new FileReader()
+        reader.onload = event => {
+          this.preview = event.target.result
+        }
         reader.readAsDataURL(input.files[0])
       }
     },
-    removePreview () {
+    removeFile () {
       this.profile.logo = ''
+      this.preview = ''
     },
-    save (event) {
-      var formData = new FormData(event.target)
-      axios.put('http://localhost:3000/api/users', formData, {
-        headers: {'Authorization': this.$store.getters.authToken}
-      })
+    save () {
+      // Prepare form data.
+      var data = new FormData()
+      for (var field in this.profile) {
+        data.append(field, this.profile[field])
+      }
+
+      axios.put('http://localhost:3000/api/users', data)
       .then(res => {
         if (res.data.success) {
-          console.log('Update Profile')
-          this.$store.state.auth.userProfile = this.profile
+          // TODO: Display success/error notification.
         }
       })
     }
@@ -114,7 +183,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
   .dropbox {
     outline: 2px dashed grey; /* the dash box */
     outline-offset: -10px;
@@ -126,6 +195,25 @@ export default {
     position: relative;
     cursor: pointer;
     transition: background 0.2s;
+    overflow: hidden;
+
+    p {
+      font-size: 1.2em;
+      text-align: center;
+      padding: 50px 0;
+    }
+
+    .fa-download {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate3d(-50%, -50%, 0);
+      font-size: 30px;
+    }
+
+    &:hover {
+      background: lightblue; /* when mouse over to the drop zone, change color */
+    }
   }
 
   .input-file {
@@ -133,52 +221,40 @@ export default {
     position: absolute;
     cursor: pointer;
     top: 0;
-    right: 0;
     bottom: 0;
     left: 0;
+    width: 100%;
   }
 
-  .dropbox:hover {
-    background: lightblue; /* when mouse over to the drop zone, change color */
-  }
-
-  .dropbox p {
-    font-size: 1.2em;
-    text-align: center;
-    padding: 50px 0;
-  }
-
-  .dropbox .material-icons {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate3d(-50%, -50%, 0);
-    font-size: 30px;
-  }
-
-  .dropbox .preview {
+  .preview {
     background-color: #fff;
     position: absolute;
     top: 0;
     right: 0;
     bottom: 0;
     left: 0;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
+
+    &__img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate3d(-50%, -50%, 0);
+      max-width: 100%;
+      max-height: 100%;
+    }
+
+    &__remove {
+      position: absolute;
+      right: 0;
+      top: 0;
+      left: auto;
+      width: 30px;
+      display: block;
+      font-size: 24px;
+
+      &:hover { color: #f44336; }
+    }
   }
 
-  .dropbox .preview__remove {
-    position: absolute;
-    right: -6px;
-    top: 15px;
-    left: auto;
-    width: 30px;
-    background: #fff;
-    display: block;
-
-  }
-  .dropbox .preview__remove:hover {
-    color: #f44336;
-  }
+  .container { max-width: 620px; }
 </style>
