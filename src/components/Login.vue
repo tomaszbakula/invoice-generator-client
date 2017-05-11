@@ -12,7 +12,7 @@
       <div class="field">
         <p class="control has-icons-left">
           <span class="icon is-small is-left"><i class="fa fa-envelope"></i></span>
-          <input class="input" type="email" placeholder="Email" v-model="credentials.email">
+          <input class="input" type="username" placeholder="Username" v-model="credentials.username">
         </p>
       </div>
 
@@ -39,7 +39,7 @@ export default {
   data () {
     return {
       credentials: {
-        email: '',
+        username: '',
         password: ''
       }
     }

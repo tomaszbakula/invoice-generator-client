@@ -4,6 +4,11 @@
 
       <h1 class="title">Profile</h1>
 
+      <div v-if="notification.type" :class="['notification', notification.type]">
+        <button class="delete" @click="notification = {}"></button>
+        {{ notification.message }}
+      </div>
+
       <form class="columns is-multiline" @submit.prevent="save($event)">
 
         <!--| FIRST NAME |-->
@@ -127,13 +132,14 @@
 
 <script>
 import axios from 'axios'
-import { API_URL } from '@/config'
+import { BASE_URL, USER_PROFILE_URL } from '@/config'
 
 export default {
   data () {
     return {
       profile: {},
-      preview: ''
+      preview: '',
+      notification: {}
     }
   },
   created () {
@@ -141,13 +147,14 @@ export default {
   },
   methods: {
     fetchProfile () {
-      axios.get('http://localhost:3000/api/users/profile').then(res => {
+      axios.get(USER_PROFILE_URL).then(res => {
         // Set logo preview.
         if (res.data.logo) {
-          this.preview = API_URL + res.data.logo
+          this.preview = BASE_URL + res.data.logo
         }
-
         this.profile = res.data
+      }).catch(function (err) {
+        console.log(err)
       })
     },
     fileChange (input) {
@@ -172,10 +179,15 @@ export default {
         data.append(field, this.profile[field])
       }
 
-      axios.put('http://localhost:3000/api/users', data)
-      .then(res => {
-        if (res.data.success) {
-          // TODO: Display success/error notification.
+      axios.put(USER_PROFILE_URL, data).then(res => {
+        this.notification = {
+          type: 'is-success',
+          message: 'Profile has been saved.'
+        }
+      }).catch((err) => {
+        this.notification = {
+          type: 'is-danger',
+          message: err.response.data.message
         }
       })
     }
