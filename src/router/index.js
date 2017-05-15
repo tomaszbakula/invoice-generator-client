@@ -7,6 +7,7 @@ import Login from '@/components/Login'
 import Dashboard from '@/components/Dashboard'
 import Profile from '@/components/Profile'
 import Invoices from '@/components/Invoices'
+import InvoiceCreate from '@/components/InvoiceCreate'
 
 Vue.use(Router)
 
@@ -44,6 +45,11 @@ export default new Router({
     {
       path: '/invoices',
       component: Invoices,
+      beforeEnter: auth
+    },
+    {
+      path: '/invoices/create',
+      component: InvoiceCreate,
       beforeEnter: auth
     }
   ]
