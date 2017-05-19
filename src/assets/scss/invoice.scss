@@ -1,0 +1,116 @@
+.input-invisible {
+  display: inline-block;
+  margin-bottom: 4px;
+  padding: 2px 4px;
+  height: 24px;
+  width: auto;
+
+  border: none;
+  box-shadow: none;
+  border: 1px solid rgba($primary, 0);
+
+  &:hover { border-color: rgba($primary, 0); }
+  &:focus { border-color: $primary; }
+}
+
+
+.invoice {
+  border: 1px solid #444;
+  padding: 38px 36px;
+  border-radius: 16px;
+  max-width: 800px;
+
+  &__row { margin-bottom: 40px; }
+
+  &__company {
+    float: right;
+    width: 50%;
+    text-align: right;
+  }
+
+  &__client { @include span(7 at 1 of 20); }
+  &__date { @include span(6 at 8 of 20); }
+  &__number { @include span(7 at 14 of 20); }
+
+  .title.is-6 {
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+
+  .control.price {
+    border: 1px solid #dbdbdb;
+    padding: 0px 8px;
+    border-radius: 3px 0 0 3px;
+    height: 26px;
+  }
+
+  .input {
+    display: inline-block;
+    margin-bottom: 4px;
+    padding: 6px;
+    height: 26px;
+    font-size: 15px;
+  }
+
+  .street{ width: 230px; }
+  .city{ width: 120px; }
+  .state{ width: 110px; }
+  .postcode{ width: 105px; }
+  .country{
+    width: 115px;
+    margin-right: 5px;
+  }
+
+  .company {
+    &-name{ width: 120px; }
+    &-phone{ width: 120px; }
+
+    &-details { @include span(1 at 1 of 3 .1); }
+    &-address { @include span(2 at 2 of 3 .1); }
+  }
+
+  .client {
+    &-fname { width: 110px; }
+    &-lname { width: 115px; }
+  }
+
+  .invoice-number { width: 115px; }
+}
+
+.btn-remove {
+  padding: 0px 6px;
+  height: 26px;
+  .fa { font-size: 16px; }
+}
+
+.add-item {
+  width: 100%;
+  border-style: dashed;
+  color: #666;
+
+  &:focus {
+    box-shadow: none;
+  }
+
+  i {
+    font-size: 95%;
+    margin: 2px 4px 0;
+  }
+}
+
+.item-list {
+  &__position { width: 41px; }
+
+  &__rate { width: 120px; }
+
+  &__qty { width: 90px; }
+
+  &__total { width: 120px; }
+
+  &__remove {
+    cursor: pointer;
+    &:hover { color: $primary; }
+  }
+
+  &__actions { width: 41px; }
+}
