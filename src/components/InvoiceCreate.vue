@@ -122,6 +122,7 @@
           {{ totalAmount }}
         </div>
 
+
         <hr>
 
         <button class="button is-primary is-medium is-pulled-right" @click="save()">Save</button>
@@ -156,11 +157,7 @@ export default {
       this.form.items.push({ rate: '', qty: '', total: '' })
     },
     removeItem (index) {
-      console.log('Remove', index)
       this.form.items.splice(index, 1)
-    },
-    totalPrice (index) {
-      return this.form.items[index].rate * this.form.items[index].qty || '0.00'
     },
     save () {
       console.log(this.form.items)
