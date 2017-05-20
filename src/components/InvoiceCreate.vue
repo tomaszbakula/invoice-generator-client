@@ -13,17 +13,17 @@
 
             <!--| COMPANY DETAILS |-->
             <div class="company-details">
-              <input class="input company-name" type="text" placeholder="Company" v-model="form.companyName">
-              <input class="input company-phone" type="text" placeholder="Phone" v-model="form.companyPhone">
+              <input class="input company-name" type="text" placeholder="Company" v-model="form.company.name">
+              <input class="input company-phone" type="text" placeholder="Phone" v-model="form.company.phone">
             </div>
 
             <!--| COMPANY ADDRESS |-->
             <address class="company-address">
-              <input class="input street" type="text" placeholder="Street" v-model="form.companyStreet">
-              <input class="input city" type="text" placeholder="City" v-model="form.companyCity">
-              <input class="input postcode" type="text" placeholder="Postcode" v-model="form.companyPostcode">
-              <input class="input state" type="text" placeholder="State" v-model="form.companyState">
-              <input class="input country" type="text" placeholder="Country" v-model="form.companyCountry">
+              <input class="input street" type="text" placeholder="Street" v-model="form.company.address.street">
+              <input class="input city" type="text" placeholder="City" v-model="form.company.address.city">
+              <input class="input postcode" type="text" placeholder="Postcode" v-model="form.company.address.postcode">
+              <input class="input state" type="text" placeholder="State" v-model="form.company.address.state">
+              <input class="input country" type="text" placeholder="Country" v-model="form.company.address.country">
             </address>
 
           </div>
@@ -41,17 +41,17 @@
 
             <!--| CLIENT DETAILS |-->
             <div class="client-details">
-              <input class="input client-fname" type="text" placeholder="First Name" v-model="form.clientFirstName">
-              <input class="input client-lname" type="text" placeholder="Last Name" v-model="form.clientLastName">
+              <input class="input client-fname" type="text" placeholder="First Name" v-model="form.client.firstName">
+              <input class="input client-lname" type="text" placeholder="Last Name" v-model="form.client.lastName">
             </div>
 
             <!--| CLIENT ADDRESS |-->
             <address class="client-address">
-              <input class="input street" type="text" placeholder="Street" v-model="form.clientStreet">
-              <input class="input city" type="text" placeholder="City" v-model="form.clientCity">
-              <input class="input postcode" type="text" placeholder="Postcode" v-model="form.clientPostcode">
-              <input class="input state" type="text" placeholder="State" v-model="form.clientState">
-              <input class="input country" type="text" placeholder="Country" v-model="form.clientCountry">
+              <input class="input street" type="text" placeholder="Street" v-model="form.client.address.street">
+              <input class="input city" type="text" placeholder="City" v-model="form.client.address.city">
+              <input class="input postcode" type="text" placeholder="Postcode" v-model="form.client.address.postcode">
+              <input class="input state" type="text" placeholder="State" v-model="form.client.address.state">
+              <input class="input country" type="text" placeholder="Country" v-model="form.client.address.country">
             </address>
 
           </div>
@@ -79,7 +79,7 @@
               <tr>
                 <th class="item-list__position">#</th>
                 <th>Description</th>
-                <th class="item-list__rate">Rate</th>
+                <th class="item-list__price">Rate</th>
                 <th class="item-list__qty">Qty</th>
                 <th class="item-list__total">Line Total</th>
                 <th class="item-list__actions"></th>
@@ -96,7 +96,7 @@
                   <div class="field has-addons">
                     <p class="control price">£</p>
                     <p class="control">
-                      <input type="text" class="input" placeholder="0.00" v-model="item.rate">
+                      <input type="text" class="input" placeholder="0.00" v-model="item.price">
                     </p>
                   </div>
 
@@ -104,7 +104,7 @@
                 <td>
                   <input type="text" class="input" placeholder="0" v-model="item.qty">
                 </td>
-                <td>{{ item.total = item.rate * item.qty || '0.00' }}</td>
+                <td>{{ item.total = item.price * item.qty || '0.00' }}</td>
                 <td>
                   <i class="fa fa-trash item-list__remove" @click="removeItem(index)"></i>
                 </td>
@@ -134,10 +134,15 @@
 </template>
 
 <script>
+import axios from 'axios'
+import { API_URL } from '@/config'
+
 export default {
   data () {
     return {
       form: {
+        company: { address: {} },
+        client: { address: {} },
         items: []
       }
     }
@@ -154,13 +159,16 @@ export default {
   },
   methods: {
     addItem () {
-      this.form.items.push({ rate: '', qty: '', total: '' })
+      this.form.items.push({ price: '', qty: '', total: '' })
     },
     removeItem (index) {
       this.form.items.splice(index, 1)
     },
     save () {
-      console.log(this.form.items)
+      console.log('Save')
+      axios.post(API_URL + 'invoices', this.form).then(res => {
+        console.log(res)
+      })
     }
   }
 }
