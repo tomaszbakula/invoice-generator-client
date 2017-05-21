@@ -59,6 +59,7 @@
           <!--| DATE OF ISSUE |-->
           <div class="invoice__date">
             <h5 class="title is-6">Date of Issue</h5>
+            <!-- TODO: Add date picker. -->
           </div>
 
           <!--| INVOICE NUMBER |-->
@@ -122,7 +123,6 @@
           {{ totalAmount }}
         </div>
 
-
         <hr>
 
         <button class="button is-primary is-medium is-pulled-right" @click="save()">Save</button>
@@ -134,7 +134,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import { API_URL } from '@/config'
 
 export default {
@@ -149,6 +148,7 @@ export default {
   },
   computed: {
     totalAmount () {
+      // NOTE: Check if there is no batter way to do it.
       let sum = 0
       this.form.items.forEach(function (item) {
         sum += parseInt(item.total)
@@ -165,9 +165,12 @@ export default {
       this.form.items.splice(index, 1)
     },
     save () {
-      console.log('Save')
-      axios.post(API_URL + 'invoices', this.form).then(res => {
+      this.axios.post(API_URL + 'invoices', this.form).then(res => {
         console.log(res)
+        // TODO: Handle response.
+      })
+      .catch(err => {
+        console.log(err)
       })
     }
   }
