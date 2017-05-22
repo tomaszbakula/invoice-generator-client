@@ -59,7 +59,7 @@
           <!--| DATE OF ISSUE |-->
           <div class="invoice__date">
             <h5 class="title is-6">Date of Issue</h5>
-            <!-- TODO: Add date picker. -->
+            <datepicker :date="date" :option="option"></datepicker>
           </div>
 
           <!--| INVOICE NUMBER |-->
@@ -135,6 +135,8 @@
 
 <script>
 import { API_URL } from '@/config'
+import datepicker from 'vue-datepicker/vue-datepicker-es6.vue'
+import moment from 'moment'
 
 export default {
   data () {
@@ -143,6 +145,19 @@ export default {
         company: { address: {} },
         client: { address: {} },
         items: []
+      },
+      date: {
+        time: moment().format('YYYY/MM/DD')
+      },
+      option: {
+        type: 'day',
+        week: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
+        month: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+        format: 'YYYY/MM/DD',
+        color: {
+          header: '#e2202c',
+          headerText: '#fff'
+        }
       }
     }
   },
@@ -165,14 +180,19 @@ export default {
       this.form.items.splice(index, 1)
     },
     save () {
-      this.axios.post(API_URL + 'invoices', this.form).then(res => {
-        console.log(res)
-        // TODO: Handle response.
+      // Set invoice issue date.
+      this.form.issueDate = Date.parse(this.date.time)
+
+      this.axios.post(API_URL + 'invoices/', this.form).then(res => {
+        this.$router.push('/invoices')
       })
       .catch(err => {
         console.log(err)
       })
     }
+  },
+  components: {
+    datepicker
   }
 }
 </script>

@@ -114,3 +114,5 @@
 
   &__actions { width: 41px; }
 }
+
+.cov-datepicker { @extend .input; }
