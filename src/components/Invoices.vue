@@ -13,6 +13,7 @@
             <th>#</th>
             <th><abbr title="Invoice Number">INO</abbr></th>
             <th>Client</th>
+            <th>Total</th>
             <th>Date</th>
             <th></th>
           </tr>
@@ -22,6 +23,7 @@
             <th>{{ index + 1 }}</th>
             <td>{{ invoice.invoiceNumber }}</td>
             <td>{{ invoice.client.firstName + '  ' + invoice.client.lastName }}</td>
+            <td>{{ invoice.total | formatPrice }}</td>
             <td>{{ invoice.issueDate | formatDate }}</td>
             <td class="actions">
               <button class="button is-info" @click="edit(invoice._id)"><i class="fa fa-pencil"></i></button>
@@ -88,7 +90,7 @@ export default {
   filters: {
     formatDate (date) {
       if (!date) return ''
-      return moment(date).format('YYYY/MM/DD hh:mm')
+      return moment(date).format('YYYY/MM/DD')
     }
   }
 }

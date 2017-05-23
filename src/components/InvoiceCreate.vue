@@ -105,7 +105,7 @@
                 <td>
                   <input type="text" class="input" placeholder="0" v-model="item.qty">
                 </td>
-                <td>{{ currency }} {{ item.total = item.price * item.qty | formatPrice }}</td>
+                <td>{{ item.total = item.price * item.qty | formatPrice }}</td>
                 <td>
                   <i class="fa fa-trash item-list__remove" @click="removeItem(index)"></i>
                 </td>
@@ -121,7 +121,7 @@
 
         <div class="invoice__row invoice__total is-clearfix">
           <strong>Total:</strong>
-          <span class="price">{{ currency }} {{ totalAmount | formatPrice }}</span>
+          <span class="price">{{ totalAmount | formatPrice }}</span>
         </div>
 
         <hr>
@@ -138,7 +138,6 @@
 import { API_URL } from '@/config'
 import datepicker from 'vue-datepicker/vue-datepicker-es6.vue'
 import moment from 'moment'
-import numeral from 'numeral'
 
 export default {
   data () {
@@ -167,8 +166,9 @@ export default {
   computed: {
     totalAmount () {
       let total = 0
+
       this.form.items.forEach(function (item) {
-        total += parseInt(item.total)
+        total += item.total
       })
 
       return total
@@ -184,16 +184,12 @@ export default {
     save () {
       // Set invoice issue date.
       this.form.issueDate = Date.parse(this.date.time)
+      this.form.total = this.totalAmount
 
       this.axios.post(API_URL + 'invoices/', this.form).then(res => {
         this.$router.push('/invoices')
       })
       .catch(err => { console.log(err) })
-    }
-  },
-  filters: {
-    formatPrice (price) {
-      return numeral(price).format('£0,0.00')
     }
   },
   components: {
