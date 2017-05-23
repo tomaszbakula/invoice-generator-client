@@ -23,7 +23,7 @@
             <td>{{ invoice.invoiceNumber }}</td>
             <td>{{ invoice.client.firstName + '  ' + invoice.client.lastName }}</td>
             <td>{{ invoice.issueDate }}</td>
-            <td>
+            <td class="actions">
               <button class="button is-info" @click="edit(invoice._id)"><i class="fa fa-pencil"></i></button>
               <button class="button is-danger" @click="remove(invoice._id, index)"><i class="fa fa-trash"></i></button>
             </td>

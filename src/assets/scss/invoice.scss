@@ -123,3 +123,13 @@
 .pagination-list {
   justify-content: center;
 }
+
+.actions {
+  width: 80px;
+
+  .button {
+    height: 24px;
+    padding: 2px 5px;
+  }
+  .fa { font-size: 16px }
+}
