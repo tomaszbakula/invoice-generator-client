@@ -62,7 +62,8 @@ export default {
     fetchData () {
       this.axios.get(API_URL + 'invoices', { params: { page: this.page } }).then(res => {
         // Set pagination
-        this.count = res.data[res.data.length - 1].count
+        let count = res.data[res.data.length - 1].count
+        this.count = count > 1 ? count : 0
         res.data.pop()
 
         // Populate invoices array
