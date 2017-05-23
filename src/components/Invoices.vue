@@ -22,7 +22,7 @@
             <th>{{ index + 1 }}</th>
             <td>{{ invoice.invoiceNumber }}</td>
             <td>{{ invoice.client.firstName + '  ' + invoice.client.lastName }}</td>
-            <td>{{ invoice.issueDate }}</td>
+            <td>{{ invoice.issueDate | formatDate }}</td>
             <td class="actions">
               <button class="button is-info" @click="edit(invoice._id)"><i class="fa fa-pencil"></i></button>
               <button class="button is-danger" @click="remove(invoice._id, index)"><i class="fa fa-trash"></i></button>
@@ -66,12 +66,6 @@ export default {
 
         // Populate invoices array
         this.invoices = res.data
-        this.formatDate()
-      })
-    },
-    formatDate () {
-      this.invoices.filter(invoice => {
-        invoice.issueDate = moment(invoice.issueDate).format('YYYY/MM/DD hh:mm')
       })
     },
     edit (id) {
@@ -90,6 +84,12 @@ export default {
   },
   created () {
     this.fetchData()
+  },
+  filters: {
+    formatDate (date) {
+      if (!date) return ''
+      return moment(date).format('YYYY/MM/DD hh:mm')
+    }
   }
 }
 </script>
