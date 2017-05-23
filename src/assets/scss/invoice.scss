@@ -32,6 +32,16 @@
   &__date { @include span(6 at 8 of 20); }
   &__number { @include span(7 at 14 of 20); }
 
+  &__total {
+    font-size: 28px;
+    text-align: right;
+
+    .price {
+      min-width: 80px;
+      display: inline-block;
+    }
+  }
+
   .title.is-6 {
     margin-bottom: 10px;
     font-weight: 600;

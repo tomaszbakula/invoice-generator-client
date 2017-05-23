@@ -95,7 +95,7 @@
                 <td>
 
                   <div class="field has-addons">
-                    <p class="control price">£</p>
+                    <p class="control price">{{ currency }}</p>
                     <p class="control">
                       <input type="text" class="input" placeholder="0.00" v-model="item.price">
                     </p>
@@ -105,7 +105,7 @@
                 <td>
                   <input type="text" class="input" placeholder="0" v-model="item.qty">
                 </td>
-                <td>{{ item.total = item.price * item.qty || '0.00' }}</td>
+                <td>{{ currency }} {{ item.total = item.price * item.qty | formatPrice }}</td>
                 <td>
                   <i class="fa fa-trash item-list__remove" @click="removeItem(index)"></i>
                 </td>
@@ -119,8 +119,9 @@
 
         </div>
 
-        <div class="invoice__row is-clearfix">
-          {{ totalAmount }}
+        <div class="invoice__row invoice__total is-clearfix">
+          <strong>Total:</strong>
+          <span class="price">{{ currency }} {{ totalAmount | formatPrice }}</span>
         </div>
 
         <hr>
@@ -137,10 +138,12 @@
 import { API_URL } from '@/config'
 import datepicker from 'vue-datepicker/vue-datepicker-es6.vue'
 import moment from 'moment'
+import numeral from 'numeral'
 
 export default {
   data () {
     return {
+      currency: '£',
       form: {
         company: { address: {} },
         client: { address: {} },
@@ -163,13 +166,12 @@ export default {
   },
   computed: {
     totalAmount () {
-      // NOTE: Check if there is no batter way to do it.
-      let sum = 0
+      let total = 0
       this.form.items.forEach(function (item) {
-        sum += parseInt(item.total)
+        total += parseInt(item.total)
       })
 
-      return sum
+      return total
     }
   },
   methods: {
@@ -186,9 +188,12 @@ export default {
       this.axios.post(API_URL + 'invoices/', this.form).then(res => {
         this.$router.push('/invoices')
       })
-      .catch(err => {
-        console.log(err)
-      })
+      .catch(err => { console.log(err) })
+    }
+  },
+  filters: {
+    formatPrice (price) {
+      return numeral(price).format('£0,0.00')
     }
   },
   components: {
