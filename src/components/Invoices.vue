@@ -46,6 +46,7 @@
 
 <script>
 import { API_URL } from '@/config'
+import moment from 'moment'
 
 export default {
   data () {
@@ -54,9 +55,6 @@ export default {
       page: 0,
       count: 0
     }
-  },
-  computed: {
-
   },
   methods: {
     fetchData () {
@@ -68,6 +66,12 @@ export default {
 
         // Populate invoices array
         this.invoices = res.data
+        this.formatDate()
+      })
+    },
+    formatDate () {
+      this.invoices.filter(invoice => {
+        invoice.issueDate = moment(invoice.issueDate).format('YYYY/MM/DD hh:mm')
       })
     },
     edit (id) {
