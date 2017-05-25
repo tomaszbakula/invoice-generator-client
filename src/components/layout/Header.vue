@@ -12,7 +12,6 @@
 
         <template v-if="authenticated">
 
-          <router-link to="/dashboard" activeClass="is-active" class="nav-item is-tab">Dashboard</router-link>
           <router-link to="/invoices" activeClass="is-active" class="nav-item is-tab">Invoices</router-link>
           <router-link to="/profile" activeClass="is-active" class="nav-item is-tab">Profile</router-link>
           <router-link to="/logout" class="nav-item is-tab">Log out</router-link>

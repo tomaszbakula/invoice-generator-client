@@ -4,10 +4,10 @@ import { store } from '@/store'
 
 import Home from '@/components/Home'
 import Login from '@/components/Login'
-import Dashboard from '@/components/Dashboard'
 import Profile from '@/components/Profile'
 import Invoices from '@/components/Invoices'
 import InvoiceCreate from '@/components/InvoiceCreate'
+import InvoiceEdit from '@/components/InvoiceEdit'
 
 Vue.use(Router)
 
@@ -33,11 +33,6 @@ export default new Router({
       }
     },
     {
-      path: '/dashboard',
-      component: Dashboard,
-      beforeEnter: auth
-    },
-    {
       path: '/profile',
       component: Profile,
       beforeEnter: auth
@@ -50,6 +45,11 @@ export default new Router({
     {
       path: '/invoices/create',
       component: InvoiceCreate,
+      beforeEnter: auth
+    },
+    {
+      path: '/invoices/:id',
+      component: InvoiceEdit,
       beforeEnter: auth
     }
   ]

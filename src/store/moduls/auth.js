@@ -59,7 +59,7 @@ const actions = {
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token')
 
       commit('setAuth', true)
-      router.push('dashboard')
+      router.push('/invoices')
     })
     .catch(function (err) {
       if (err.response) {
@@ -71,7 +71,7 @@ const actions = {
     axios.post(SIGNUP_URL, credentials, (response) => {
       localStorage.setItem('token', response.data.token)
       commit('setAuth', true)
-      router.push('dashboard')
+      router.push('/invoices')
     }).error((err) => {
       if (err.response) {
         commit('setAuthErrors', err.response.data)
