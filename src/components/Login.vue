@@ -1,34 +1,38 @@
 <template>
   <main class="section">
-    <form class="container box column is-4" @submit.prevent>
+    <div class="container">
 
-      <h1 class="title">Login</h1>
+      <form class="box login_form" @submit.prevent>
 
-      <div v-if="getAuthErrors" class="notification is-danger">
-        <p v-for="error in getAuthErrors">{{ error }}</p>
-      </div>
+        <h1 class="title">Login</h1>
 
-      <!--| EMAIL |-->
-      <div class="field">
-        <p class="control has-icons-left">
-          <span class="icon is-small is-left"><i class="fa fa-envelope"></i></span>
-          <input class="input" type="username" placeholder="Username" v-model="credentials.username">
-        </p>
-      </div>
+        <div v-if="getAuthErrors" class="notification is-danger">
+          <p v-for="error in getAuthErrors">{{ error }}</p>
+        </div>
 
-      <!--| PASSWORD |-->
-      <div class="field">
-        <p class="control has-icons-left">
-          <span class="icon is-small is-left"><i class="fa fa-lock"></i></span>
-          <input class="input" type="password" placeholder="Password" v-model="credentials.password">
-        </p>
-      </div>
+        <!--| EMAIL |-->
+        <div class="field">
+          <p class="control has-icons-left">
+            <span class="icon is-small is-left"><i class="fa fa-envelope"></i></span>
+            <input class="input" type="username" placeholder="Username" v-model="credentials.username">
+          </p>
+        </div>
 
-      <button class="button is-outlined is-primary" type="submit" @click="login(credentials)">Login</button>
+        <!--| PASSWORD |-->
+        <div class="field">
+          <p class="control has-icons-left">
+            <span class="icon is-small is-left"><i class="fa fa-lock"></i></span>
+            <input class="input" type="password" placeholder="Password" v-model="credentials.password">
+          </p>
+        </div>
 
-      <a href="#" class="new-account">Create account</a></p>
+        <button class="button is-outlined is-primary" type="submit" @click="login(credentials)">Login</button>
 
-    </form>
+        <a href="#" class="new-account">Create account</a></p>
+
+      </form>
+
+    </div>
   </main>
 </template>
 
