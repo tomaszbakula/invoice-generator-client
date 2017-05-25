@@ -39,19 +39,53 @@
 
             <h5 class="title is-6">Billed to</h5>
 
+            <div class="client-search">
+              <div class="field has-addons">
+                <p class="control">
+                  <!-- CLIENTS SEARCH -->
+                  <input type="text"
+                         placeholder="Search for client"
+                         autocomplete="off"
+                         class="input"
+                         v-model="query"
+                         @keydown.down="down"
+                         @keydown.up="up"
+                         @keydown.enter="hit"
+                         @keydown.esc="reset"
+                         @blur="reset"
+                         @input="update"/>
+                </p>
+                <p class="control">
+                  <a class="button client-search__clear" @click="clearClient()">
+                    Clear
+                  </a>
+                </p>
+              </div>
+
+              <!-- CLIENTS LIST -->
+              <ul class="client-search__results" v-show="items">
+                <li v-for="(item, $item) in items" :class="activeClass($item)" @mousedown="hit" @mousemove="setActive($item)">
+                  {{ item.firstName }} {{ item.lastName }}
+                </li>
+              </ul>
+            </div>
+
+
+            <input v-if="form.client._id" type="hidden" name="" v-model="form.client._id">
+
             <!--| CLIENT DETAILS |-->
             <div class="client-details">
-              <input class="input client-fname" type="text" placeholder="First Name" v-model="form.client.firstName">
-              <input class="input client-lname" type="text" placeholder="Last Name" v-model="form.client.lastName">
+              <input class="input client-fname" type="text" placeholder="First Name" v-model="form.client.firstName" :disabled="form.client._id">
+              <input class="input client-lname" type="text" placeholder="Last Name" v-model="form.client.lastName" :disabled="form.client._id">
             </div>
 
             <!--| CLIENT ADDRESS |-->
             <address class="client-address">
-              <input class="input street" type="text" placeholder="Street" v-model="form.client.address.street">
-              <input class="input city" type="text" placeholder="City" v-model="form.client.address.city">
-              <input class="input postcode" type="text" placeholder="Postcode" v-model="form.client.address.postcode">
-              <input class="input state" type="text" placeholder="State" v-model="form.client.address.state">
-              <input class="input country" type="text" placeholder="Country" v-model="form.client.address.country">
+              <input class="input street" type="text" placeholder="Street" v-model="form.client.address.street" :disabled="form.client._id">
+              <input class="input city" type="text" placeholder="City" v-model="form.client.address.city" :disabled="form.client._id">
+              <input class="input postcode" type="text" placeholder="Postcode" v-model="form.client.address.postcode" :disabled="form.client._id">
+              <input class="input state" type="text" placeholder="State" v-model="form.client.address.state" :disabled="form.client._id">
+              <input class="input country" type="text" placeholder="Country" v-model="form.client.address.country" :disabled="form.client._id">
             </address>
 
           </div>
@@ -138,14 +172,22 @@
 import { API_URL } from '@/config'
 import datepicker from 'vue-datepicker/vue-datepicker-es6.vue'
 import moment from 'moment'
+import VueTypeahead from 'vue-typeahead'
 
 export default {
+  extends: VueTypeahead,
   data () {
     return {
+      src: API_URL + '/clients',
+      limit: 5,
+      minChars: 3,
       currency: '£',
       form: {
         company: { address: {} },
-        client: { address: {} },
+        client: {
+          _id: false,
+          address: {}
+        },
         items: []
       },
       date: {
@@ -175,6 +217,15 @@ export default {
     }
   },
   methods: {
+    clearClient () {
+      for (let prop in this.form.client) {
+        this.form.client[prop] = ''
+      }
+      this.form.client._id = false
+    },
+    onHit (item) {
+      Object.assign(this.form.client, item)
+    },
     addItem () {
       this.form.items.push({ price: '', qty: '', total: '' })
     },
@@ -186,7 +237,7 @@ export default {
       this.form.issueDate = Date.parse(this.date.time)
       this.form.total = this.totalAmount
 
-      this.axios.post(API_URL + 'invoices/', this.form).then(res => {
+      this.axios.post(API_URL + 'invoices', this.form).then(res => {
         this.$router.push('/invoices')
       })
       .catch(err => { console.log(err) })

@@ -143,3 +143,39 @@
   }
   .fa { font-size: 16px }
 }
+
+/* Client search
+---------------------------------------- */
+.client-search {
+  position: relative;
+
+  &__results {
+    position: absolute;
+    z-index: 2;
+    background: #fff;
+    border: 1px solid #ddd;
+    top: 24px;
+    width: 238px;
+
+    li {
+      padding: 3px 6px;
+      cursor: pointer;
+
+      &.active {
+        background-color: $primary !important;
+        color: #fff;
+      }
+
+      &:hover {
+        background-color: lighten($primary, 25%);
+        color: #fff;
+      }
+    }
+  }
+
+  &__clear {
+    height: 26px;
+    font-size: 14px;
+    line-height: 1.3;
+  }
+}
