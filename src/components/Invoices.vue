@@ -19,17 +19,30 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(invoice, index) in invoices">
-            <th>{{ index + 1 }}</th>
-            <td>{{ invoice.invoiceNumber }}</td>
-            <td>{{ invoice.client.firstName + '  ' + invoice.client.lastName }}</td>
-            <td>{{ invoice.total | formatPrice }}</td>
-            <td>{{ invoice.issueDate | formatDate }}</td>
-            <td class="actions">
-              <button class="button is-info" @click="edit(invoice._id)"><i class="fa fa-pencil"></i></button>
-              <button class="button is-danger" @click="remove(invoice._id, index)"><i class="fa fa-trash"></i></button>
-            </td>
-          </tr>
+
+          <template v-if="invoices.length">
+
+            <tr v-for="(invoice, index) in invoices">
+              <th>{{ index + 1 }}</th>
+              <td>{{ invoice.invoiceNumber }}</td>
+              <td>{{ invoice.client.firstName + '  ' + invoice.client.lastName }}</td>
+              <td>{{ invoice.total | formatPrice }}</td>
+              <td>{{ invoice.issueDate | formatDate }}</td>
+              <td class="actions">
+                <button class="button is-info" @click="edit(invoice._id)"><i class="fa fa-pencil"></i></button>
+                <button class="button is-danger" @click="remove(invoice._id, index)"><i class="fa fa-trash"></i></button>
+              </td>
+            </tr>
+
+          </template>
+          <template v-else>
+            <tr>
+              <td colspan="6">
+                <br><h4 class="subtitle has-text-centered">There is no invoices here.</h4><br>
+              </td>
+            </tr>
+          </template>
+
         </tbody>
       </table>
 
