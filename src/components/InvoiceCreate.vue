@@ -63,7 +63,7 @@
               </div>
 
               <!-- CLIENTS LIST -->
-              <ul class="client-search__results" v-show="items">
+              <ul class="client-search__results" v-if="hasItems">
                 <li v-for="(item, $item) in items" :class="activeClass($item)" @mousedown="hit" @mousemove="setActive($item)">
                   {{ item.firstName }} {{ item.lastName }}
                 </li>
@@ -71,21 +71,21 @@
             </div>
 
 
-            <input v-if="form.client._id" type="hidden" name="" v-model="form.client._id">
+            <input v-if="form.client.id" type="hidden" name="" v-model="form.client.id">
 
             <!--| CLIENT DETAILS |-->
             <div class="client-details">
-              <input class="input client-fname" type="text" placeholder="First Name" v-model="form.client.firstName" :disabled="form.client._id">
-              <input class="input client-lname" type="text" placeholder="Last Name" v-model="form.client.lastName" :disabled="form.client._id">
+              <input class="input client-fname" type="text" placeholder="First Name" v-model="form.client.firstName" :disabled="form.client.id">
+              <input class="input client-lname" type="text" placeholder="Last Name" v-model="form.client.lastName" :disabled="form.client.id">
             </div>
 
             <!--| CLIENT ADDRESS |-->
             <address class="client-address">
-              <input class="input street" type="text" placeholder="Street" v-model="form.client.address.street" :disabled="form.client._id">
-              <input class="input city" type="text" placeholder="City" v-model="form.client.address.city" :disabled="form.client._id">
-              <input class="input postcode" type="text" placeholder="Postcode" v-model="form.client.address.postcode" :disabled="form.client._id">
-              <input class="input state" type="text" placeholder="State" v-model="form.client.address.state" :disabled="form.client._id">
-              <input class="input country" type="text" placeholder="Country" v-model="form.client.address.country" :disabled="form.client._id">
+              <input class="input street" type="text" placeholder="Street" v-model="form.client.address.street" :disabled="form.client.id">
+              <input class="input city" type="text" placeholder="City" v-model="form.client.address.city" :disabled="form.client.id">
+              <input class="input postcode" type="text" placeholder="Postcode" v-model="form.client.address.postcode" :disabled="form.client.id">
+              <input class="input state" type="text" placeholder="State" v-model="form.client.address.state" :disabled="form.client.id">
+              <input class="input country" type="text" placeholder="Country" v-model="form.client.address.country" :disabled="form.client.id">
             </address>
 
           </div>
@@ -184,10 +184,7 @@ export default {
       currency: '£',
       form: {
         company: { address: {} },
-        client: {
-          _id: false,
-          address: {}
-        },
+        client: { address: {} },
         items: []
       },
       date: {
@@ -221,10 +218,12 @@ export default {
       for (let prop in this.form.client) {
         this.form.client[prop] = ''
       }
-      this.form.client._id = false
+      this.form.client.id = false
     },
-    onHit (item) {
-      Object.assign(this.form.client, item)
+    onHit (client) {
+      this.form.client.id = client._id
+      delete client._id
+      Object.assign(this.form.client, client)
     },
     addItem () {
       this.form.items.push({ price: '', qty: '', total: '' })
@@ -236,6 +235,10 @@ export default {
       // Set invoice issue date.
       this.form.issueDate = Date.parse(this.date.time)
       this.form.total = this.totalAmount
+
+      if (!this.form.client.id) {
+        delete this.form.client.id
+      }
 
       this.axios.post(API_URL + 'invoices', this.form).then(res => {
         this.$router.push('/invoices')
