@@ -169,7 +169,7 @@
 </template>
 
 <script>
-import { API_URL } from '@/config'
+import { API_URL, USER_PROFILE_URL } from '@/config'
 import datepicker from 'vue-datepicker/vue-datepicker-es6.vue'
 import moment from 'moment'
 import VueTypeahead from 'vue-typeahead'
@@ -183,7 +183,10 @@ export default {
       minChars: 3,
       currency: '£',
       form: {
-        company: { address: {} },
+        company: {
+          name: '',
+          address: {}
+        },
         client: { address: {} },
         items: []
       },
@@ -244,7 +247,23 @@ export default {
         this.$router.push('/invoices')
       })
       .catch(err => { console.log(err) })
+    },
+    getProfile () {
+      this.axios.get(USER_PROFILE_URL).then(res => {
+        let profile = res.data
+
+        this.form.company.name = profile.companyName
+        this.form.company.phone = profile.phone
+        this.form.company.address.street = profile.street
+        this.form.company.address.city = profile.city
+        this.form.company.address.postcode = profile.postcode
+        this.form.company.address.state = profile.state
+        this.form.company.address.country = profile.country
+      })
     }
+  },
+  created () {
+    this.getProfile()
   },
   components: {
     datepicker
