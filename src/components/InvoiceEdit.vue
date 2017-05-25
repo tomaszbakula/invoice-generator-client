@@ -170,6 +170,7 @@
 
 <script>
 import { API_URL } from '@/config'
+import { emptyObject } from '@/helpers'
 import datepicker from 'vue-datepicker/vue-datepicker-es6.vue'
 import moment from 'moment'
 import VueTypeahead from 'vue-typeahead'
@@ -217,9 +218,7 @@ export default {
   },
   methods: {
     clearClient () {
-      for (let prop in this.form.client) {
-        this.form.client[prop] = ''
-      }
+      emptyObject(this.form.client)
       this.form.client.id = false
     },
     onHit (client) {

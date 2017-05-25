@@ -170,6 +170,7 @@
 
 <script>
 import { API_URL, USER_PROFILE_URL } from '@/config'
+import { emptyObject } from '@/helpers'
 import datepicker from 'vue-datepicker/vue-datepicker-es6.vue'
 import moment from 'moment'
 import VueTypeahead from 'vue-typeahead'
@@ -187,7 +188,9 @@ export default {
           name: '',
           address: {}
         },
-        client: { address: {} },
+        client: {
+          firstName: '',
+          address: {} },
         items: []
       },
       date: {
@@ -218,9 +221,7 @@ export default {
   },
   methods: {
     clearClient () {
-      for (let prop in this.form.client) {
-        this.form.client[prop] = ''
-      }
+      emptyObject(this.form.client)
       this.form.client.id = false
     },
     onHit (client) {
@@ -244,7 +245,7 @@ export default {
       }
 
       this.axios.post(API_URL + 'invoices', this.form).then(res => {
-        this.$router.push('/invoices')
+        // this.$router.push('/invoices')
       })
       .catch(err => { console.log(err) })
     },
