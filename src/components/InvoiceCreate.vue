@@ -8,6 +8,9 @@
 
         <div class="invoice__row is-clearfix">
 
+          <!--| COMPANY LOGO |-->
+          <img v-if="logo" :src="logo" alt="Client Logo" class="invoice__logo">
+
           <!--| COMPANY |-->
           <div class="invoice__company">
 
@@ -169,7 +172,7 @@
 </template>
 
 <script>
-import { API_URL, USER_PROFILE_URL } from '@/config'
+import { BASE_URL, API_URL, USER_PROFILE_URL } from '@/config'
 import { emptyObject } from '@/helpers'
 import datepicker from 'vue-datepicker/vue-datepicker-es6.vue'
 import moment from 'moment'
@@ -179,6 +182,7 @@ export default {
   extends: VueTypeahead,
   data () {
     return {
+      logo: false,
       src: API_URL + '/clients',
       limit: 5,
       minChars: 3,
@@ -245,21 +249,21 @@ export default {
       }
 
       this.axios.post(API_URL + 'invoices', this.form).then(res => {
-        // this.$router.push('/invoices')
+        this.$router.push('/invoices')
       })
       .catch(err => { console.log(err) })
     },
     getProfile () {
       this.axios.get(USER_PROFILE_URL).then(res => {
-        let profile = res.data
+        this.form.company.name = res.data.companyName
+        this.form.company.phone = res.data.phone
+        this.form.company.address.street = res.data.street
+        this.form.company.address.city = res.data.city
+        this.form.company.address.postcode = res.data.postcode
+        this.form.company.address.state = res.data.state
+        this.form.company.address.country = res.data.country
 
-        this.form.company.name = profile.companyName
-        this.form.company.phone = profile.phone
-        this.form.company.address.street = profile.street
-        this.form.company.address.city = profile.city
-        this.form.company.address.postcode = profile.postcode
-        this.form.company.address.state = profile.state
-        this.form.company.address.country = profile.country
+        this.logo = BASE_URL + res.data.logo
       })
     }
   },

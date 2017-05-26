@@ -24,7 +24,7 @@
 
   &__company {
     float: right;
-    width: 50%;
+    width: 51%;
     text-align: right;
   }
 
@@ -40,6 +40,11 @@
       min-width: 80px;
       display: inline-block;
     }
+  }
+
+  &__logo {
+    max-width: 250px;
+    max-height: 150px;
   }
 
   .title.is-6 {

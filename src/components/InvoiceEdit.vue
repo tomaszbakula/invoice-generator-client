@@ -8,6 +8,9 @@
 
         <div class="invoice__row is-clearfix">
 
+          <!--| COMPANY LOGO |-->
+          <img v-if="logo" :src="logo" alt="Client Logo" class="invoice__logo">
+
           <!--| COMPANY |-->
           <div class="invoice__company">
 
@@ -169,7 +172,7 @@
 </template>
 
 <script>
-import { API_URL } from '@/config'
+import { BASE_URL, USER_PROFILE_URL, API_URL } from '@/config'
 import { emptyObject } from '@/helpers'
 import datepicker from 'vue-datepicker/vue-datepicker-es6.vue'
 import moment from 'moment'
@@ -179,6 +182,7 @@ export default {
   extends: VueTypeahead,
   data () {
     return {
+      logo: false,
       src: API_URL + '/clients',
       limit: 5,
       minChars: 3,
@@ -253,9 +257,15 @@ export default {
         this.date.time = moment(res.data.issueDate).format('YYYY/MM/DD')
         Object.assign(this.form, res.data)
       })
+    },
+    fetchProfile () {
+      this.axios.get(USER_PROFILE_URL).then(res => {
+        this.logo = BASE_URL + res.data.logo
+      })
     }
   },
   created () {
+    this.fetchProfile()
     this.fetchData()
   },
   components: {
