@@ -2,6 +2,8 @@
   <main class="section">
     <div class="container">
 
+      <app-notification></app-notification>
+
       <h1 class="title">
         Invoices
         <router-link to="/invoices/create" class="button is-primary is-pulled-right">New Invoice</router-link>
@@ -62,6 +64,7 @@
 <script>
 import { API_URL } from '@/config'
 import moment from 'moment'
+import Notifications from './layout/Notification.vue'
 
 export default {
   data () {
@@ -105,6 +108,9 @@ export default {
       if (!date) return ''
       return moment(date).format('YYYY/MM/DD')
     }
+  },
+  components: {
+    appNotification: Notifications
   }
 }
 </script>

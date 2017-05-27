@@ -252,7 +252,13 @@ export default {
 
       this.axios.put(API_URL + 'invoices/' + this.$route.params.id, this.form)
       .then(res => {
-        this.$router.push('/invoices')
+        this.$router.push({
+          path: '/invoices',
+          query: {
+            type: 'success',
+            message: 'Invoice has been updated.'
+          }
+        })
       })
       .catch(err => { console.log(err) })
     },
