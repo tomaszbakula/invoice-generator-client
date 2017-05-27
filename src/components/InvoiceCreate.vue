@@ -49,7 +49,7 @@
                   <input type="text"
                          placeholder="Search for client"
                          autocomplete="off"
-                         class="input"
+                         class="input client-search__input"
                          v-model="query"
                          @keydown.down="down"
                          @keydown.up="up"
@@ -173,7 +173,7 @@
 
 <script>
 import { BASE_URL, API_URL, USER_PROFILE_URL } from '@/config'
-import { emptyObject } from '@/helpers'
+import { zeroPad, emptyObject } from '@/helpers'
 import datepicker from 'vue-datepicker/vue-datepicker-es6.vue'
 import moment from 'moment'
 import VueTypeahead from 'vue-typeahead'
@@ -194,7 +194,9 @@ export default {
         },
         client: {
           firstName: '',
-          address: {} },
+          address: {}
+        },
+        invoiceNumber: '',
         items: []
       },
       date: {
@@ -265,10 +267,18 @@ export default {
 
         this.logo = BASE_URL + res.data.logo
       })
+    },
+    getInvoiceNumber () {
+      this.axios.get(API_URL + 'invoices').then(res => {
+        let latest = res.data.shift()
+        let no = latest ? parseInt(latest.invoiceNumber) + 1 : 0
+        this.form.invoiceNumber = zeroPad(no, 8)
+      })
     }
   },
   created () {
     this.getProfile()
+    this.getInvoiceNumber()
   },
   components: {
     datepicker
