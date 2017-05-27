@@ -2,7 +2,7 @@
   <main class="section">
     <div class="container">
 
-      <h1 class="title">Edit Invoice</h1>
+      <h1 class="title no-print">Edit Invoice</h1>
 
       <article class="invoice is-clearfix">
 
@@ -42,14 +42,14 @@
 
             <h5 class="title is-6">Billed to</h5>
 
-            <div class="client-search">
+            <div class="client-search no-print">
               <div class="field has-addons">
                 <p class="control">
                   <!-- CLIENTS SEARCH -->
                   <input type="text"
                          placeholder="Search for client"
                          autocomplete="off"
-                         class="input"
+                         class="input client-search__input"
                          v-model="query"
                          @keydown.down="down"
                          @keydown.up="up"
@@ -120,7 +120,7 @@
                 <th class="item-list__price">Rate</th>
                 <th class="item-list__qty">Qty</th>
                 <th class="item-list__total">Line Total</th>
-                <th class="item-list__actions"></th>
+                <th class="item-list__actions no-print"></th>
               </tr>
             </thead>
             <tbody>
@@ -143,14 +143,14 @@
                   <input type="text" class="input" placeholder="0" v-model="item.qty">
                 </td>
                 <td>{{ item.total = item.price * item.qty | formatPrice }}</td>
-                <td>
+                <td class="no-print">
                   <i class="fa fa-trash item-list__remove" @click="removeItem(index)"></i>
                 </td>
               </tr>
             </tbody>
           </table>
 
-          <button class="button is-outlined add-item" @click="addItem()">
+          <button class="button is-outlined add-item no-print" @click="addItem()">
             <i class="fa fa-plus-square-o"></i>Add Item
           </button>
 
@@ -161,9 +161,9 @@
           <span class="price">{{ totalAmount | formatPrice }}</span>
         </div>
 
-        <hr>
+        <hr class="no-print">
 
-        <button class="button is-primary is-medium is-pulled-right" @click="save()">Save</button>
+        <button class="button is-primary is-medium is-pulled-right no-print" @click="save()">Save</button>
 
       </article>
 

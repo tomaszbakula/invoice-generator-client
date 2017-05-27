@@ -24,11 +24,26 @@
 
   &__company {
     float: right;
-    width: 51%;
+    width: 56%;
     text-align: right;
+
+    .input {
+      float: left;
+      width: 48%;
+      margin-right: 4px;
+    }
   }
 
-  &__client { @include span(7 at 1 of 20); }
+  &__client {
+    @include span(7 at 1 of 20);
+
+    .input {
+      float: left;
+      width: 48%;
+      margin-right: 4px;
+    }
+  }
+
   &__date { @include span(6 at 8 of 20); }
   &__number { @include span(7 at 14 of 20); }
 
@@ -67,26 +82,12 @@
     font-size: 15px;
   }
 
-  .street{ width: 230px; }
-  .city{ width: 120px; }
-  .state{ width: 110px; }
-  .postcode{ width: 105px; }
-  .country{
-    width: 115px;
-    margin-right: 5px;
-  }
+  .street { width: calc(100% - 6px); }
 
   .company {
-    &-name{ width: 120px; }
-    &-phone{ width: 120px; }
-
+    &-name, &-phone { width: 100%; }
     &-details { @include span(1 at 1 of 3 .1); }
     &-address { @include span(2 at 2 of 3 .1); }
-  }
-
-  .client {
-    &-fname { width: 110px; }
-    &-lname { width: 115px; }
   }
 
   .invoice-number { width: 115px; }
@@ -183,6 +184,8 @@
     font-size: 14px;
     line-height: 1.3;
   }
+
+  &__input { width: 100% !important; }
 
   .field { margin-bottom: 0; }
 }

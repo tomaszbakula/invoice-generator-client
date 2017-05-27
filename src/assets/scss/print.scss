@@ -1,0 +1,10 @@
+@media print {
+  .no-print, .no-print * { display: none; }
+  .input, .price { border-color: #fff !important; }
+  .invoice {
+    max-width: none;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+  }
+}

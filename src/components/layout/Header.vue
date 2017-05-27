@@ -1,5 +1,5 @@
 <template>
-  <nav class="nav has-shadow">
+  <nav class="nav has-shadow no-print">
     <div class="container">
 
       <div class="nav-left">
