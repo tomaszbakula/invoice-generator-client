@@ -2,7 +2,12 @@
   <main class="section">
     <div class="container">
 
-      <h1 class="title no-print">Edit Invoice</h1>
+      <h1 class="title no-print">
+        Edit Invoice
+        <div class="is-pulled-right">
+          <button class="button is-dark is-small" @click="print">Print</button>
+        </div>
+      </h1>
 
       <article class="invoice is-clearfix">
 
@@ -262,6 +267,9 @@ export default {
       this.axios.get(USER_PROFILE_URL).then(res => {
         this.logo = BASE_URL + res.data.logo
       })
+    },
+    print () {
+      window.print()
     }
   },
   created () {
@@ -273,3 +281,7 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  h1.title { max-width: 800px; }
+</style>
