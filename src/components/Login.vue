@@ -2,35 +2,44 @@
   <main class="section">
     <div class="container">
 
-      <form class="box login_form" @submit.prevent>
+        <form class="box login_form" @submit.prevent>
 
-        <h1 class="title">Login</h1>
+          <transition name="fade" mode="out-in">
+            <h1 v-if="login" class="title" key="login">Login</h1>
+            <h1 v-else class="title" key="register">Register</h1>
+          </transition>
 
-        <div v-if="getAuthErrors" class="notification is-danger">
-          <p v-for="error in getAuthErrors">{{ error }}</p>
-        </div>
+          <div v-if="getAuthErrors" class="notification is-danger">
+            <p v-for="error in getAuthErrors">{{ error }}</p>
+          </div>
 
-        <!--| EMAIL |-->
-        <div class="field">
-          <p class="control has-icons-left">
-            <span class="icon is-small is-left"><i class="fa fa-envelope"></i></span>
-            <input class="input" type="username" placeholder="Username" v-model="credentials.username">
-          </p>
-        </div>
+          <!--| EMAIL |-->
+          <div class="field">
+            <p class="control has-icons-left">
+              <span class="icon is-small is-left"><i class="fa fa-envelope"></i></span>
+              <input class="input" type="username" placeholder="Username" v-model="credentials.username">
+            </p>
+          </div>
 
-        <!--| PASSWORD |-->
-        <div class="field">
-          <p class="control has-icons-left">
-            <span class="icon is-small is-left"><i class="fa fa-lock"></i></span>
-            <input class="input" type="password" placeholder="Password" v-model="credentials.password">
-          </p>
-        </div>
+          <!--| PASSWORD |-->
+          <div class="field">
+            <p class="control has-icons-left">
+              <span class="icon is-small is-left"><i class="fa fa-lock"></i></span>
+              <input class="input" type="password" placeholder="Password" v-model="credentials.password">
+            </p>
+          </div>
 
-        <button class="button is-outlined is-primary" type="submit" @click="login(credentials)">Login</button>
+          <transition name="fade" mode="out-in">
+            <button v-if="login" key="login" class="button is-outlined is-primary" type="submit" @click="login(credentials)">Login</button>
+            <button v-else key="register" class="button is-outlined is-primary" type="submit" @click="register(credentials)">Register</button>
+          </transition>
 
-        <a href="#" class="new-account">Create account</a></p>
+          <transition name="fade" mode="out-in">
+            <a v-if="login" key="login" href="#" class="new-account" @click="login = !login">Create account</a>
+            <a v-else key="register" href="#" class="new-account" @click="login = !login">Login</a>
+          </transition>
 
-      </form>
+        </form>
 
     </div>
   </main>
@@ -42,6 +51,7 @@ import { mapActions, mapGetters } from 'vuex'
 export default {
   data () {
     return {
+      login: true,
       credentials: {
         username: '',
         password: ''
@@ -84,5 +94,12 @@ export default {
   .notification {
     padding: 4px;
     margin-bottom: 0.75rem;
+  }
+
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .5s
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+    opacity: 0
   }
 </style>
