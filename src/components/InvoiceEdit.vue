@@ -271,7 +271,9 @@ export default {
     },
     fetchProfile () {
       this.axios.get(USER_PROFILE_URL).then(res => {
-        this.logo = BASE_URL + res.data.logo
+        if (res.data.logo) {
+          this.logo = BASE_URL + res.data.logo
+        }
       })
     },
     print () {

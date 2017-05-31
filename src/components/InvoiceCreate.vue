@@ -271,7 +271,9 @@ export default {
         this.form.company.address.state = res.data.state
         this.form.company.address.country = res.data.country
 
-        this.logo = BASE_URL + res.data.logo
+        if (res.data.logo) {
+          this.logo = BASE_URL + res.data.logo
+        }
       })
     },
     getInvoiceNumber () {
