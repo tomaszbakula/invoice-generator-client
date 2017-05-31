@@ -279,7 +279,7 @@ export default {
     getInvoiceNumber () {
       this.axios.get(API_URL + 'invoices').then(res => {
         let latest = res.data.shift()
-        let no = latest ? parseInt(latest.invoiceNumber) + 1 : 0
+        let no = latest.count === 0 ? 0 : parseInt(latest.invoiceNumber) + 1
         this.form.invoiceNumber = zeroPad(no, 8)
       })
     }
