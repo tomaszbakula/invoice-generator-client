@@ -5,7 +5,7 @@
         <form class="box login_form" @submit.prevent>
 
           <transition name="fade" mode="out-in">
-            <h1 v-if="login" class="title" key="login">Login</h1>
+            <h1 v-if="loginForm" class="title" key="loginForm">Login</h1>
             <h1 v-else class="title" key="register">Register</h1>
           </transition>
 
@@ -13,13 +13,24 @@
             <p v-for="error in getAuthErrors">{{ error }}</p>
           </div>
 
-          <!--| EMAIL |-->
+          <!--| USERNAME |-->
           <div class="field">
             <p class="control has-icons-left">
               <span class="icon is-small is-left"><i class="fa fa-envelope"></i></span>
-              <input class="input" type="username" placeholder="Username" v-model="credentials.username">
+              <input class="input" type="text" placeholder="Username" v-model="credentials.username">
             </p>
           </div>
+
+
+          <transition name="fade" mode="out-in">
+            <!--| EMAIL |-->
+            <div v-if="!loginForm" class="field">
+              <p class="control has-icons-left">
+                <span class="icon is-small is-left"><i class="fa fa-envelope"></i></span>
+                <input class="input" type="email" placeholder="Email" v-model="credentials.email">
+              </p>
+            </div>
+          </transition>
 
           <!--| PASSWORD |-->
           <div class="field">
@@ -30,13 +41,13 @@
           </div>
 
           <transition name="fade" mode="out-in">
-            <button v-if="login" key="login" class="button is-outlined is-primary" type="submit" @click="login(credentials)">Login</button>
-            <button v-else key="register" class="button is-outlined is-primary" type="submit" @click="register(credentials)">Register</button>
+            <button v-if="loginForm" key="loginForm" class="button is-outlined is-primary" type="submit" @click="login(credentials)">Login</button>
+            <button v-else key="register" class="button is-outlined is-primary" type="submit" @click="signup(credentials)">Register</button>
           </transition>
 
           <transition name="fade" mode="out-in">
-            <a v-if="login" key="login" href="#" class="new-account" @click="login = !login">Create account</a>
-            <a v-else key="register" href="#" class="new-account" @click="login = !login">Login</a>
+            <a v-if="loginForm" key="loginForm" href="#" class="new-account" @click="loginForm = !loginForm">Create account</a>
+            <a v-else key="register" href="#" class="new-account" @click="loginForm = !loginForm">Login</a>
           </transition>
 
         </form>
@@ -51,7 +62,7 @@ import { mapActions, mapGetters } from 'vuex'
 export default {
   data () {
     return {
-      login: true,
+      loginForm: true,
       credentials: {
         username: '',
         password: ''
@@ -62,7 +73,7 @@ export default {
     ...mapGetters([ 'getAuthErrors' ])
   },
   methods: {
-    ...mapActions([ 'login' ])
+    ...mapActions([ 'login', 'signup' ])
   }
 }
 </script>

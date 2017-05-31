@@ -55,7 +55,6 @@ const actions = {
     axios.post(LOGIN_URL, credentials)
     .then(function (response) {
       localStorage.setItem('token', response.data.token)
-
       axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token')
 
       commit('setAuth', true)
@@ -68,11 +67,15 @@ const actions = {
     })
   },
   signup ({ commit, state }, credentials) {
-    axios.post(SIGNUP_URL, credentials, (response) => {
+    axios.post(SIGNUP_URL, credentials)
+    .then(response => {
       localStorage.setItem('token', response.data.token)
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token')
+
       commit('setAuth', true)
       router.push('/invoices')
-    }).error((err) => {
+    })
+    .catch(err => {
       if (err.response) {
         commit('setAuthErrors', err.response.data)
       }
